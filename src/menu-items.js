@@ -89,19 +89,19 @@ export default {
                 }
             ]
         },
-        {
-            id: 'chart-maps',
-            title: 'Chart & Maps',
-            type: 'group',
-            icon: 'icon-charts',
-            children: [
-                {
-                    id: 'charts',
-                    title: 'Charts',
-                    type: 'item',
-                    icon: 'feather icon-pie-chart',
-                    url: '/charts/nvd3'
-                },
+        // {
+        //     id: 'chart-maps',
+        //     title: 'Chart & Maps',
+        //     type: 'group',
+        //     icon: 'icon-charts',
+        //     children: [
+        //         {
+        //             id: 'charts',
+        //             title: 'Charts',
+        //             type: 'item',
+        //             icon: 'feather icon-pie-chart',
+        //             url: '/charts/nvd3'
+        //         },
                 // {
                 //     id: 'maps',
                 //     title: 'Map',
@@ -109,8 +109,8 @@ export default {
                 //     icon: 'feather icon-map',
                 //     url: '/maps/google-map'
                 // }
-            ]
-        },
+        //     ]
+        // },
         {
             id: 'pages',
             title: 'Pages',

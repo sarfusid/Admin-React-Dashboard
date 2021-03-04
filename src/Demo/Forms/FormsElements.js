@@ -4,7 +4,6 @@ import{db} from '../../fire';
 import Aux from "../../hoc/_Aux";
 import moment from 'moment'
 
-
 // class FormsElements extends React.Component {
 
     const FormsElements = () => {
@@ -24,6 +23,7 @@ import moment from 'moment'
     
             db.collection('Ateen_India').doc(ateenId).set({
                 brand:brand,
+                quantity:quantity,
                 id:ateenId,
                 screen_size:screen_size,
                 particulars:particulars,
@@ -36,7 +36,7 @@ import moment from 'moment'
                  }).then(() =>{
                     setHandleComp({
                         brand:'',
-                        // suzuki:'',
+                        quantity:'',
                         dprice2: '', 
                         dprice1: '', 
                         mrp2: '', 
@@ -54,7 +54,8 @@ import moment from 'moment'
         // }
             
     };
-    const {dprice2, dprice1, mrp2, mrp1, particulars, screen_size, brand} = handleComp
+    
+    const {dprice2, dprice1, mrp2, mrp1, particulars,quantity, screen_size, brand} = handleComp
     console.log(">>>>", handleComp)
         return (
             <Aux>
@@ -69,11 +70,24 @@ import moment from 'moment'
                                 <option>Select here</option>
                                 <option  value="suzuki" >Suzuki</option>
                                 <option  value="honda" >Honda</option>
-                                <option  value="hundai">Hundai</option>
+                                <option  value="hundai">Hyundai</option>
                                 <option  value="mahindra" >Mahindra</option>
-                                <option  value="renault" >Renault</option>
+                                <option  value="renault" >Renaults</option>
                                 <option  value="nissan" >Nissan</option>
                                 <option  value="tata" >Tata</option>
+                                <option  value="suzuki" >Skoda</option>
+                                <option  value="honda" >Toyota</option>
+                                <option  value="hundai">Volkswagen</option>
+                                <option  value="mahindra" >Jeep</option>
+                                <option  value="renault" >Chevorolet</option>
+                                <option  value="nissan" >Ford</option>
+                                <option  value="suzuki" >Mitsudisha</option>
+                                <option  value="honda" >Isuzu</option>
+                                <option  value="hundai">Mercedes</option>
+                                <option  value="mahindra" >Mg</option>
+                                <option  value="renault" >Kia</option>
+                                <option  value="nissan" >Flat</option>
+                                
                                 </select></Card.Title>
                                 </Form.Group>
                             </Card.Header>
@@ -83,12 +97,11 @@ import moment from 'moment'
                                 <Row>
                                     <Col md={6}>
                                         <Form>
-                                            {/* <Form></Form.Group> */} 
 
                                             <Form.Group controlId="formBasicPassword">
                                                 <Form.Label>Screen_size</Form.Label>
                                                 <Form.Control type="number" placeholder="Screen_size" name ="screen_size"
-                                                value={screen_size} onChange={onChange} require/>
+                                                value={screen_size} onChange={onChange} required="" />
                                             </Form.Group>
                                             {/* <Form.Group controlId="formBasicChecbox">
                                                 <Form.Check type="checkbox" label="Check me out" />
@@ -96,8 +109,13 @@ import moment from 'moment'
                                             <Form.Group controlId="exampleForm.ControlInput1">
                                             <Form.Label>particulars</Form.Label>
                                             <Form.Control type="text" placeholder="Particulars" name ="particulars"
-                                             value={particulars} onChange={onChange} required/>
+                                             value={particulars} onChange={onChange} required="" />
                                         </Form.Group>
+                                        <Form.Group controlId="exampleForm.ControlInput1">
+                                            <Form.Label>Quantity</Form.Label>
+                                            <Form.Control type="number" placeholder="Quantity" name ="quantity"
+                                            value={quantity} onChange={onChange} required= "" />
+                                            </Form.Group>
                                         </Form>
 
                                     </Col>
