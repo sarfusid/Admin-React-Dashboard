@@ -82,7 +82,7 @@ export default {
                 },
                 {
                     id: 'bootstrap',
-                    title: 'See Product',
+                    title: 'Product list',
                     type: 'item',
                     icon: 'feather icon-server',
                     url: '/tables/bootstrap'

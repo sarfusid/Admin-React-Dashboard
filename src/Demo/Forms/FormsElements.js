@@ -1,16 +1,29 @@
 import React ,{useState} from 'react';
 import {Row, Col, Card, Form, Button,} from 'react-bootstrap';
-import{db} from '../../fire';
+import{db, storage} from '../../fire';
+import fire from '../../fire';
 import Aux from "../../hoc/_Aux";
 import moment from 'moment'
 
 // class FormsElements extends React.Component {
-
     const FormsElements = () => {
+        // const [fileUrl, setFileUrl] =useState(null)
+        const onFileChange = async(e) =>{
+            const file= e.target.files[0]
+            const storageRef = fire.storage().ref()
+            const fileRef = storageRef.child(file.name)
+            // await fileRef.put(file)
+            //  setFileUrl ( await fileRef.getDownloadUrl())
+            await fileRef.put(file).then(()=>{
+                console.log("uploaded file",file.name)
+            })
+        }
+        
     const [handleComp, setHandleComp] = useState({})
     const onChange = e => setHandleComp({...handleComp, [e.target.name]: e.target.value})
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        
         console.log("check handleComp >>>", handleComp)
         console.log(dprice2, dprice1, mrp2, mrp1, particulars, screen_size, brand)
         // if(){
@@ -20,21 +33,27 @@ import moment from 'moment'
             let zeroStr ="000"
             let counterStr = `${counter}`
             let ateenId = `APD${moment().format("YYMM")}${zeroStr.substring(counterStr.length)+counterStr}`
-    
+            var today = new Date();
+            var unixTimestamp = moment(today, 'YYYY.MM.DD').unix(); 
             db.collection('Ateen_India').doc(ateenId).set({
+                cancel:false,
                 brand:brand,
                 quantity:quantity,
                 id:ateenId,
+                createAt:unixTimestamp,
                 screen_size:screen_size,
                 particulars:particulars,
                 mrp1:mrp1,
-                mrp2:mrp2,
+                mrp2:mrp2,  
                 dprice1:dprice1,
                 dprice2:dprice2
             }).then(()=>{
                     counterDoc.exists ? statsRef.update({counter : counter+1}):statsRef.set({counter:counter+1})
                  }).then(() =>{
                     setHandleComp({
+                        cancel:false,
+                        // image:'',
+                        createAt:'unixTimestamp',
                         brand:'',
                         quantity:'',
                         dprice2: '', 
@@ -52,10 +71,11 @@ import moment from 'moment'
                 });
                 setHandleComp({}) 
         // }
-            
+    //   const lena =  db.collection('Ateen_India').doc('--stats--').get(particulars);
+    //   alert(lena);
     };
-    
-    const {dprice2, dprice1, mrp2, mrp1, particulars,quantity, screen_size, brand} = handleComp
+       
+    const {dprice2, dprice1, mrp2, mrp1, particulars,quantity, screen_size, brand, image, addDate} = handleComp
     console.log(">>>>", handleComp)
         return (
             <Aux>
@@ -66,8 +86,8 @@ import moment from 'moment'
                             <Form.Group controlId="exampleForm.ControlInput1">
                             
                                 <Card.Title as="h5">The Brand You Put Data in: Select the Brand 👉 &nbsp;&nbsp;&nbsp;
-                                <select onChange={onChange} value={brand} name="brand">
-                                <option>Select here</option>
+                                <select className="browser-default custom-select" aria-label="Default select example" onChange={onChange} value={brand} name="brand" style={{width:"200px"}}>
+                                <option>Brand</option>
                                 <option  value="suzuki" >Suzuki</option>
                                 <option  value="honda" >Honda</option>
                                 <option  value="hundai">Hyundai</option>
@@ -75,20 +95,21 @@ import moment from 'moment'
                                 <option  value="renault" >Renaults</option>
                                 <option  value="nissan" >Nissan</option>
                                 <option  value="tata" >Tata</option>
-                                <option  value="suzuki" >Skoda</option>
-                                <option  value="honda" >Toyota</option>
-                                <option  value="hundai">Volkswagen</option>
-                                <option  value="mahindra" >Jeep</option>
-                                <option  value="renault" >Chevorolet</option>
-                                <option  value="nissan" >Ford</option>
-                                <option  value="suzuki" >Mitsudisha</option>
-                                <option  value="honda" >Isuzu</option>
-                                <option  value="hundai">Mercedes</option>
-                                <option  value="mahindra" >Mg</option>
-                                <option  value="renault" >Kia</option>
-                                <option  value="nissan" >Flat</option>
+                                <option  value="Skoda" >Skoda</option>
+                                <option  value="Toyota" >Toyota</option>
+                                <option  value="Volkswagen">Volkswagen</option>
+                                <option  value="Jeep" >Jeep</option>
+                                <option  value="Chevorolet" >Chevorolet</option>
+                                <option  value="Ford" >Ford</option>
+                                <option  value="Mitsudisha" >Mitsudisha</option>
+                                <option  value="Isuzu" >Isuzu</option>
+                                <option  value="Mercedes">Mercedes</option>
+                                <option  value="Mg" >Mg</option>
+                                <option  value="Kia" >Kia</option>
+                                <option  value="Flat" >Flat</option>
                                 
-                                </select></Card.Title>
+                                </select>
+                                </Card.Title>
                                 </Form.Group>
                             </Card.Header>
                             <Card.Body>
@@ -116,13 +137,19 @@ import moment from 'moment'
                                             <Form.Control type="number" placeholder="Quantity" name ="quantity"
                                             value={quantity} onChange={onChange} required= "" />
                                             </Form.Group>
+                                            {/* <Form.Group controlId="exampleForm.ControlInput1">
+                                            <Form.Label>Date</Form.Label>
+                                            <Form.Control type="date" placeholder="Date" name ="addDate"
+                                            value={addDate} onChange={onChange} required= "" />
+                                            </Form.Group> */}
                                         </Form>
 
                                     </Col>
 
-                                    <Col md={6}>
-
-                                        <Form.Group controlId="exampleForm.ControlInput1">
+                                    <Col md={3}>
+                                    {/* <Form.Control ref={register} type="file" name ="image"
+                                              required onChange={onChange} /><br></br> */}
+                                          <Form.Group controlId="exampleForm.ControlInput1">
                                             <Form.Label>1 + 16 GB</Form.Label>
                                             <Form.Control type="number" placeholder="MRP"  name ="mrp1"
                                                 value={mrp1} onChange={onChange} required
@@ -137,13 +164,20 @@ import moment from 'moment'
                                             <Form.Control type="number" placeholder="D.Price" name ="dprice2"
                                             value={dprice2} onChange={onChange} required />
                                         </Form.Group>
-                                            
+                                    </Col>
+
+                                        <Col md={3}>
+                                        <Form.Control type="file"  onChange={onFileChange} />
+
+                                        <br></br>
                                          
                                          <Button variant="primary" onClick={handleSubmit}>
                                                 Submit
-                                            </Button>  
+                                            </Button>
+                                            </Col>
                                         
-                                    </Col>
+                                        
+                                        
                                 </Row>
                             </Card.Body>
                 </Card>
